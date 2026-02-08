@@ -1,0 +1,216 @@
+Airline Management System:
+
+Users: Passenger, Admin
+
+Features of the system:
+
+1. Search flights
+2. Book seats
+3. Cancel booking
+4. Manage Passengers
+5. Manage Aircraft and Seats
+6. Manage flights
+7. Manage locations
+
+Core entities:
+
+Domain entities(Real world objects)
+-Passenger
+-Admin
+-Flight
+-Booking
+-Aircraft
+-Seat
+-Location
+
+Services
+-Search
+-Booking Management
+-Flight Management
+-Airline Management
+
+Relationship between entities:
+
+-Flight has an aircraft and locations
+-Booking has a Flight and Passenger
+-Aircraft has seats
+
+Flight relationships:
+
+-Flight -> has -> Aircraft
+-Flight -> has -> Source Location 
+-Flight -> has -> Destination Location
+
+Booking relationships:
+
+-Booking -> has -> Flight
+-Booking -> has -> Passenger
+-Booking -> contains -> seat
+
+Passenger relationships:
+
+-Passenger -> has -> Bookings
+
+Aircraft relationships:
+
+-Aircraft -> has -> seats
+
+Entity Relationship Summary:
+
+Passenger 1 ---- * Booking
+Flight    1 ---- * Booking
+Flight    1 ---- 1 Aircraft
+Aircraft  1 ---- * Seat
+Flight    1 ---- 1 Source Location
+Flight    1 ---- 1 Destination Location
+
+Define Class Attributes:
+
+Flight:
+
+-flightId
+-source : Location
+-destination : Location
+-departureTime
+-arrivalTime
+-aircraft : Aircraft
+-availableSeats : Map<seat, seatStatus>
+-bookings : List<Bookings>
+
+Flight methods:
+
+-bookSeat
+-cancelSeat
+-getAvailableSeats
+
+Bookings:
+
+-bookingId
+-flight: Flight
+-seat-passenger map: Map<Seat, Passenger>
+-Status
+
+Seat:
+
+-seatId/number
+-seatClass
+
+Aircraft:
+
+-aircraft : Enum AircraftType
+-aircraftNumber : String
+-seats: List<seat>
+
+Using Enum in Aircraft class
+public class Aircraft {
+    private AircraftType type;
+    private String aircraftNumber;
+    private List<Seat> seats;
+}
+
+Passenger:
+
+-passengerId
+-name : String
+-phoneNo : String
+-email : mail
+
+
+--out of scope--
+-address : String
+
+FlightManager:
+
+add, update, delete, fetch
+
+- addFlight(Flight)
+- updateFlight(Flight)
+- deleteFlight(flightId)
+- fetchFlight(flightId)
+
+BookingManager:
+
+-createBooking
+-cancelBooking
+-getBooking
+
+
+FLOW:
+Booking Flow:
+
+1. Passenger searches flights
+2. Search Service returns flights
+3. Passenger selects flight & seats
+4. Booking Manager creates booking
+5. Flight reserves seats	
+6. Bookings are stored
+7. Passenger fetches booking
+
+Cancellation Flow:
+
+1. Passenger cancels booking
+2. BookingManager updates booking status
+3. FlightManager releases reserved seats
+
+BookingManager → booking operations
+Flight → seat changes
+FlightManager → flight admin operations
+
+
+Location:
+
+-city: String
+-airportCode : String
+-country: String
+-airportName : String
+
+SearchService:
+
+-search(SearchReq req)
+
+SearchReq:
+
+-from : Location
+-to : Location
+-date : Date
+-noOfPassengers
+-seatClass : SeatClass
+
+Admin:
+
+-adminId
+-name
+-mail
+-phoneNo
+
+AirlineManagementSystem:
+
+-SearchService
+-BookingManager
+-FlightManager
+
+Entities:
+
+Passenger
+Admin
+Flight
+Aircraft
+Seat
+Booking
+Location
+
+Enums:
+
+AircraftType
+SeatClass
+BookingStatus
+
+Services:
+
+SearchService
+BookingManager
+FlightManager
+
+System Layer:
+
+AirlineManagementSystem
