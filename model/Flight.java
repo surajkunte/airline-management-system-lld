@@ -23,11 +23,11 @@ public class Flight {
     }
 
     public synchronized boolean reserveSeat(Seat seat){
-        if(seatAvailability.getOrDefault(seat, false)){
-            seatAvailability.put(seat, true);
-            return true;
+        if(seatAvailability.getOrDefault(seat, true)){
+            seatAvailability.put(seat, false);
+            return false;
         }
-        return false;
+        return true;
     }
 
     public synchronized void releaseSeat(Seat seat){
