@@ -18,16 +18,16 @@ public class Flight {
     public Flight(Aircraft aircraft){
         this.aircraft = aircraft;
         for(Seat s: aircraft.getSeats){
-            seatAvailability.put(seat, true);
+            seatAvailability.put(seat, false);
         }
     }
 
     public synchronized boolean reserveSeat(Seat seat){
         if(seatAvailability.getOrDefault(seat, true)){
             seatAvailability.put(seat, false);
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     public synchronized void releaseSeat(Seat seat){
